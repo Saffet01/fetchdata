@@ -5,6 +5,7 @@ import { Post } from "./components/Post";
 function App() {
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState({title: "", body: ""});
+  const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/posts")
@@ -15,9 +16,9 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const postId = {...newPost, id: posts.length + 1};
+    const postId = {...newPost, id: posts.length + 1 };
+    setNewPost({title: "", body: ""});
     setPosts([postId, ...posts]);
-    setNewPost({title: "", body: ""})
   }
 
   const handleInputChange = (event) => {
@@ -29,8 +30,13 @@ function App() {
     setPosts(posts.filter((post) => post.id !== id));
   }
 
+  const handlePostClick = (post) => {
+    setSelectedPost(post);
+  };
+
   return (
     <div className="App">
+      
       <h1>Blog Posts</h1>
       <form onSubmit={handleSubmit}>
         <input className="input-field" name="title" type="text" value={newPost.title} onChange={handleInputChange} placeholder="Title" required/>
@@ -39,9 +45,18 @@ function App() {
       </form>
       <div className="posts-container">
         {posts.map((post) => (
-          <Post key={post.id} post={post} onDelete={handleDeletePost} />
+          <Post key={post.id} post={post} onClick={handlePostClick} onDelete={handleDeletePost} />
         ))}
       </div>
+      {selectedPost && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={() => setSelectedPost(null)}>&times;</span>
+            <h2>{selectedPost.title}</h2>
+            <p>{selectedPost.body}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

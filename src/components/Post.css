@@ -1,0 +1,27 @@
+.post-card {
+  border: 1px solid #cccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 8px;
+  width: 300px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  box-sizing: border-box;
+  flex: 1 1 calc(25%-32px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.post-card:hover {
+  transform: scale(1.05);
+}
+
+.delete-button {
+  width: 50%;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  padding: 8px;
+}
